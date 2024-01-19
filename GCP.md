@@ -1,4 +1,4 @@
-*Google Cloud Platform (GCP) Cheat Sheet for Data Engineers*
+# Google Cloud Platform (GCP) Cheat Sheet for Data Engineers
 
 ## Google Cloud SDK Basics Cheat Sheet
 
@@ -101,7 +101,7 @@
   gcloud
   ```
 
-##Google Cloud Storage Cheat Sheet
+## Google Cloud Storage Cheat Sheet
 
 ### Bucket Operations:
 
@@ -311,7 +311,7 @@
   bq --help
   ```
 
-##Google BigQuery SQL DDL Cheat Sheet
+## Google BigQuery SQL DDL Cheat Sheet
 
 ### **Creating Tables:**
 
@@ -415,7 +415,7 @@
   DELETE FROM `project.dataset.table`
   WHERE condition;
   ```
-##Google BigQuery SQL Cheat Sheet
+## Google BigQuery SQL Cheat Sheet
 
 ### **Basic Queries:**
 
@@ -524,7 +524,7 @@
   FROM `project.dataset.table` t1
   WHERE column > (SELECT AVG(column) FROM `project.dataset.table` t2 WHERE t2.category = t1.category)
   ```
-##Google BigQuery SQL Cheat Sheet: OVER, PARTITION BY, and WITH Clause
+## Google BigQuery SQL Cheat Sheet: OVER, PARTITION BY, and WITH Clause
 
 ### **OVER Clause:**
 
@@ -604,7 +604,7 @@
   FROM region_sales;
   ```
     
-##Google BigQuery SQL DDL
+## Google BigQuery SQL DDL
 
 ### **Creating Tables:**
 
@@ -772,7 +772,7 @@
     VALUES (S.column1, S.column2, ...);
   ```
 
-##Google Cloud Dataflow Cheat Sheet
+## Google Cloud Dataflow Cheat Sheet
 
 ### **Basic DataFlow Commands:**
 
