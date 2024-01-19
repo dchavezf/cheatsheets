@@ -1499,5 +1499,130 @@ Assuming you meant Google Cloud Composer, below is a Python cheat sheet for Goog
   ```bash
   gcloud beta transfer operations get-counters --project [PROJECT-ID] [OPERATION-NAME]
   ```
+## Google Cloud AI Platform (formerly ML Engine)
+
+### **1. Training a Model:**
+
+- **Using gcloud CLI:**
+  ```bash
+  gcloud ai-platform jobs submit training JOB_NAME \
+    --module-name=your_module \
+    --package-path=your_package \
+    --staging-bucket=gs://your_bucket \
+    --region=your_region \
+    --runtime-version=your_version \
+    --python-version=your_python_version \
+    -- \
+    --arg1=value1 \
+    --arg2=value2
+  ```
+
+### **2. Deploying a Model:**
+
+- **Using gcloud CLI:**
+  ```bash
+  gcloud ai-platform models create your_model \
+    --regions=your_region
+  ```
+
+- **Deploying a Version:**
+  ```bash
+  gcloud ai-platform versions create your_version \
+    --model=your_model \
+    --origin=gs://your_model_directory \
+    --runtime-version=your_version \
+    --python-version=your_python_version
+  ```
+
+### **3. Online Prediction:**
+
+- **Using gcloud CLI:**
+  ```bash
+  gcloud ai-platform predict \
+    --model=your_model \
+    --version=your_version \
+    --json-instances=your_input.json
+  ```
+
+### **4. Batch Prediction:**
+
+- **Using gcloud CLI:**
+  ```bash
+  gcloud ai-platform jobs submit prediction JOB_NAME \
+    --model=your_model \
+    --version=your_version \
+    --data-format=TEXT \
+    --region=your_region \
+    --input-paths=gs://your_input_directory/*.json \
+    --output-path=gs://your_output_directory
+  ```
+
+### **5. Hyperparameter Tuning:**
+
+- **Using gcloud CLI:**
+  ```bash
+  gcloud ai-platform jobs submit training JOB_NAME \
+    --module-name=your_module \
+    --package-path=your_package \
+    --staging-bucket=gs://your_bucket \
+    --region=your_region \
+    --runtime-version=your_version \
+    --python-version=your_python_version \
+    --config=your_hyperparameter_config.yaml
+  ```
+
+### **6. Model Versioning:**
+
+- **Creating a Model Version:**
+  ```bash
+  gcloud ai-platform versions create your_version \
+    --model=your_model \
+    --origin=gs://your_model_directory \
+    --runtime-version=your_version \
+    --python-version=your_python_version
+  ```
+
+### **7. Model Monitoring:**
+
+- **Configuring Model Monitoring:**
+  Update the deployed model version with monitoring options.
+
+### **8. Access Control:**
+
+- **Setting Permissions:**
+  Use Google Cloud Identity and Access Management (IAM) to manage permissions.
+
+### **9. Cleaning Up:**
+
+- **Deleting a Model:**
+  ```bash
+  gcloud ai-platform models delete your_model
+  ```
+
+- **Deleting a Version:**
+  ```bash
+  gcloud ai-platform versions delete your_version --model=your_model
+  ```
+
+### **10. Monitoring and Logging:**
+
+- **Viewing Logs:**
+  Access logs through Google Cloud Console or use Stackdriver Logging.
+
+### **11. Best Practices:**
+
+- **Use TensorBoard for Monitoring:**
+  Visualize TensorFlow training runs using TensorBoard.
+
+- **Optimize Input Data:**
+  Preprocess and optimize input data for better model performance.
+
+- **Regularly Monitor and Retrain:**
+  Monitor model performance and retrain as needed for evolving data.
+
+### **12. TensorFlow Extended (TFX):**
+
+- **Building TFX Pipelines:**
+  Leverage TensorFlow Extended for end-to-end ML pipelines.
 
 **Note:** Ensure that you replace placeholders such as `[...]` with your specific values when using these commands. This cheat sheet provides a quick reference for common GCP commands used by data engineers. Always refer to the official GCP documentation for the most up-to-date information and additional details: [Google Cloud SDK Documentation](https://cloud.google.com/sdk/docs) and [Google Cloud Command-Line Tool Documentation](https://cloud.google.com/sdk/gcloud).
