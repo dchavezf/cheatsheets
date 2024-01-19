@@ -1,6 +1,6 @@
 *Google Cloud Platform (GCP) Cheat Sheet for Data Engineers*
 
-##Google Cloud SDK Basics Cheat Sheet
+## Google Cloud SDK Basics Cheat Sheet
 
 ### Installation and Configuration:
 
@@ -1090,6 +1090,119 @@
   ```bash
   gcloud composer environments update [ENVIRONMENT-NAME] --location [REGION] --image-version [IMAGE-VERSION]
   ```
+It seems there might be a confusion in your request. If you meant Google Cloud Composer, it is a fully managed workflow orchestration service built on Apache Airflow. If you were referring to another service or tool, please provide clarification.
+
+Assuming you meant Google Cloud Composer, below is a Python cheat sheet for Google Cloud Composer:
+
+**Google Cloud Composer Python Cheat Sheet**
+
+### **Environment and DAG Management:**
+
+- **Create a Composer Environment:**
+  ```python
+  from google.cloud import composer_v1
+  from google.cloud.composer_v1 import types
+
+  client = composer_v1.EnvironmentsClient()
+  location = "your-region"
+  project_id = "your-project-id"
+  environment = types.Environment(
+      name="projects/{}/locations/{}/environments/{}".format(
+          project_id, location, "your-environment-name"
+      ),
+      config={
+          "node_count": 3,
+          "software_config": {"image_version": "composer-2.0.0-preview.6"},
+      },
+  )
+  operation = client.create_environment(parent="projects/{}/locations/{}".format(project_id, location), environment=environment)
+  result = operation.result()
+  print(f"Environment created successfully: {result.name}")
+  ```
+
+- **List Composer Environments:**
+  ```python
+  environments = client.list_environments(parent="projects/{}/locations/{}".format(project_id, location))
+  for environment in environments:
+      print(f"Environment Name: {environment.name}")
+  ```
+
+- **Create a DAG File:**
+  ```python
+  # Upload your DAG file to a GCS bucket
+  dag_file_path = "gs://your-bucket/your-dag.py"
+
+  # Set the DAG properties
+  dag = {
+      "name": "your-dag-name",
+      "source_code_uri": dag_file_path,
+      "dag_airflow_config": {"example_key": "example_value"},
+  }
+
+  # Create the DAG
+  client = composer_v1.ImageVersionsClient()
+  client.create_dag(parent="projects/{}/locations/{}/environments/{}".format(project_id, location, "your-environment-name"), dag=dag)
+  ```
+
+### **Triggering and Managing DAGs:**
+
+- **Trigger a DAG Run:**
+  ```python
+  client = composer_v1.EnvironmentsClient()
+  client.run_dag(name="projects/{}/locations/{}/environments/{}/dags/{}".format(project_id, location, "your-environment-name", "your-dag-name"))
+  ```
+
+- **List DAG Runs:**
+  ```python
+  client = composer_v1.EnvironmentsClient()
+  dag_runs = client.list_dag_runs(parent="projects/{}/locations/{}/environments/{}/dags/{}".format(project_id, location, "your-environment-name", "your-dag-name"))
+  for dag_run in dag_runs:
+      print(f"DAG Run ID: {dag_run.dag_run_id}")
+  ```
+
+- **View DAG Run Details:**
+  ```python
+  client = composer_v1.EnvironmentsClient()
+  dag_run = client.get_dag_run(name="projects/{}/locations/{}/environments/{}/dags/{}/dagRuns/{}".format(project_id, location, "your-environment-name", "your-dag-name", "your-dag-run-id"))
+  print(f"DAG Run Details: {dag_run}")
+  ```
+
+### **IAM and Permissions:**
+
+- **Grant Permissions to a User:**
+  ```python
+  client = composer_v1.EnvironmentsClient()
+  client.add_environment_variable(
+      name="projects/{}/locations/{}/environments/{}/variables/{}".format(project_id, location, "your-environment-name", "your-variable-name"),
+      environment_variable=types.EnvironmentVariable(
+          name="projects/{}/locations/{}/environments/{}/variables/{}".format(project_id, location, "your-environment-name", "your-variable-name"),
+          value="your-variable-value",
+      ),
+  )
+  ```
+
+- **Revoke Permissions from a User:**
+  ```python
+  client = composer_v1.EnvironmentsClient()
+  client.delete_environment_variable(name="projects/{}/locations/{}/environments/{}/variables/{}".format(project_id, location, "your-environment-name", "your-variable-name"))
+  ```
+
+### **Additional Operations:**
+
+- **List Available Composer Image Versions:**
+  ```python
+  client = composer_v1.ImageVersionsClient()
+  image_versions = client.list_image_versions(parent="projects/{}/locations/{}".format(project_id, location))
+  for image_version in image_versions:
+      print(f"Image Version: {image_version.image_version}")
+  ```
+
+- **Upgrade Composer Environment Image Version:**
+  ```python
+  client = composer_v1.EnvironmentsClient()
+  client.update_environment(name="projects/{}/locations/{}/environments/{}/imageVersions/{}".format(project_id, location, "your-environment-name", "your-image-version"))
+  ```
+
 ## Google Cloud Dataproc
 
 ### **Cluster Management:**
@@ -1182,8 +1295,6 @@
   gcloud dataproc clusters remove-iam-policy-binding [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID] --member [MEMBER] --role [ROLE]
   ```
 
-This cheat sheet provides essential commands for managing Google Cloud Dataproc clusters, submitting and managing jobs, configuring initialization actions, and handling IAM permissions. Adjust placeholders such as `[...]` with your specific values. Refer to the [Google Cloud Dataproc Documentation](https://cloud.google.com/dataproc/docs) for more comprehensive details and advanced features.
-
 ### Cloud Storage Transfer Service:
 
 ## Google Cloud Storage Transfer Service
@@ -1211,6 +1322,115 @@ This cheat sheet provides essential commands for managing Google Cloud Dataproc 
 - **Cancel a Transfer Operation:**
   ```bash
   gcloud beta transfer operations cancel [OPERATION-NAME] --project [PROJECT-ID]
+  ```
+**Google Cloud Dataproc Python Cheat Sheet**
+
+### **Google Cloud SDK Installation:**
+
+- **Install Google Cloud SDK:**
+  Follow the instructions in the [official documentation](https://cloud.google.com/sdk/docs/install) to install the Google Cloud SDK.
+
+- **Authenticate with Google Cloud:**
+  ```bash
+  gcloud auth login
+  ```
+
+### **Cluster Management with Python:**
+
+- **Create a Dataproc Cluster:**
+  ```python
+  from google.cloud import dataproc_v1
+  from google.cloud.dataproc_v1 import enums
+
+  client = dataproc_v1.ClusterControllerClient()
+  project_id = "your-project-id"
+  region = "your-region"
+
+  cluster = {
+      "project_id": project_id,
+      "cluster_name": "your-cluster-name",
+      "config": {
+          "master_config": {"num_instances": 1, "machine_type_uri": "n1-standard-4"},
+          "worker_config": {"num_instances": 2, "machine_type_uri": "n1-standard-4"},
+      },
+  }
+
+  operation = client.create_cluster(
+      project_id=project_id, region=region, cluster=cluster
+  )
+  result = operation.result()
+  print(f"Cluster created successfully: {result.cluster_name}")
+  ```
+
+- **List Dataproc Clusters:**
+  ```python
+  clusters = client.list_clusters(project_id=project_id, region=region)
+  for cluster in clusters:
+      print(f"Cluster Name: {cluster.cluster_name}")
+  ```
+
+- **Delete a Dataproc Cluster:**
+  ```python
+  client.delete_cluster(project_id=project_id, region=region, cluster_name="your-cluster-name")
+  ```
+
+### **Job Submission with Python:**
+
+- **Submit a PySpark Job:**
+  ```python
+  job = {
+      "reference": {"project_id": project_id, "job_id": "your-job-id"},
+      "placement": {"cluster_name": "your-cluster-name"},
+      "pyspark_job": {"main_python_file_uri": "gs://your-bucket/your-script.py"},
+  }
+
+  operation = client.submit_job(project_id=project_id, region=region, job=job)
+  result = operation.result()
+  print(f"Job submitted successfully: {result.reference.job_id}")
+  ```
+
+- **List Dataproc Jobs:**
+  ```python
+  jobs = client.list_jobs(project_id=project_id, region=region)
+  for job in jobs:
+      print(f"Job ID: {job.reference.job_id}")
+  ```
+
+- **Cancel a Dataproc Job:**
+  ```python
+  client.cancel_job(
+      project_id=project_id, region=region, job_id="your-job-id"
+  )
+  ```
+
+### **Cluster and Job Configuration Files:**
+
+- **Example Cluster Configuration JSON:**
+  ```json
+  {
+      "project_id": "your-project-id",
+      "cluster_name": "your-cluster-name",
+      "config": {
+          "master_config": {"num_instances": 1, "machine_type_uri": "n1-standard-4"},
+          "worker_config": {"num_instances": 2, "machine_type_uri": "n1-standard-4"},
+      },
+  }
+  ```
+
+- **Example PySpark Job Configuration JSON:**
+  ```json
+  {
+      "reference": {"project_id": "your-project-id", "job_id": "your-job-id"},
+      "placement": {"cluster_name": "your-cluster-name"},
+      "pyspark_job": {"main_python_file_uri": "gs://your-bucket/your-script.py"},
+  }
+  ```
+
+### **Additional Python Libraries:**
+
+- **Install Required Libraries:**
+  ```bash
+  pip install google-cloud-dataproc google-cloud-storage
   ```
 
 ### **Transfer Jobs:**
