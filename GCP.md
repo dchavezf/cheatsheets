@@ -1,6 +1,6 @@
-**Google Cloud Platform (GCP) Cheat Sheet for Data Engineers**
+*Google Cloud Platform (GCP) Cheat Sheet for Data Engineers*
 
-**Google Cloud SDK Basics Cheat Sheet**
+##Google Cloud SDK Basics Cheat Sheet
 
 ### Installation and Configuration:
 
@@ -101,7 +101,7 @@
   gcloud
   ```
 
-**Google Cloud Storage Cheat Sheet**
+##Google Cloud Storage Cheat Sheet
 
 ### Bucket Operations:
 
@@ -212,11 +212,7 @@
   gsutil defstorageclass set [STORAGE-CLASS] gs://[BUCKET-NAME]
   ```
 
-  ```
-
-### BigQuery:
-
-**Google BigQuery Cheat Sheet**
+## Google BigQuery Cheat Sheet
 
 ### **Query Execution:**
 
@@ -315,7 +311,7 @@
   bq --help
   ```
 
-**Google BigQuery SQL DDL Cheat Sheet**
+##Google BigQuery SQL DDL Cheat Sheet
 
 ### **Creating Tables:**
 
@@ -419,7 +415,7 @@
   DELETE FROM `project.dataset.table`
   WHERE condition;
   ```
-**Google BigQuery SQL Cheat Sheet**
+##Google BigQuery SQL Cheat Sheet
 
 ### **Basic Queries:**
 
@@ -528,7 +524,7 @@
   FROM `project.dataset.table` t1
   WHERE column > (SELECT AVG(column) FROM `project.dataset.table` t2 WHERE t2.category = t1.category)
   ```
-**Google BigQuery SQL Cheat Sheet: OVER, PARTITION BY, and WITH Clause**
+##Google BigQuery SQL Cheat Sheet: OVER, PARTITION BY, and WITH Clause
 
 ### **OVER Clause:**
 
@@ -608,7 +604,7 @@
   FROM region_sales;
   ```
     
-**Google BigQuery SQL DDL Cheat Sheet**
+##Google BigQuery SQL DDL
 
 ### **Creating Tables:**
 
@@ -776,9 +772,7 @@
     VALUES (S.column1, S.column2, ...);
   ```
 
-### Dataflow:
-
-**Google Cloud Dataflow Cheat Sheet**
+##Google Cloud Dataflow Cheat Sheet
 
 ### **Basic DataFlow Commands:**
 
@@ -1001,9 +995,7 @@
   gcloud pubsub subscriptions modify [SUBSCRIPTION-NAME] --push-endpoint=[NEW-PUSH-ENDPOINT]
   ```
 
-### Cloud Composer (Airflow):
-
-**Google Cloud Composer Cheat Sheet**
+## Google Cloud Composer (Airflow)
 
 ### **Environment Management:**
 
@@ -1098,13 +1090,103 @@
   ```bash
   gcloud composer environments update [ENVIRONMENT-NAME] --location [REGION] --image-version [IMAGE-VERSION]
   ```
+## Google Cloud Dataproc
 
+### **Cluster Management:**
+
+- **Create a Dataproc Cluster:**
+  ```bash
+  gcloud dataproc clusters create [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID] --num-workers [NUM-WORKERS]
+  ```
+
+- **List Dataproc Clusters:**
+  ```bash
+  gcloud dataproc clusters list --region [REGION] --project [PROJECT-ID]
+  ```
+
+- **View Cluster Details:**
+  ```bash
+  gcloud dataproc clusters describe [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID]
+  ```
+
+- **Update Cluster Configuration:**
+  ```bash
+  gcloud dataproc clusters update [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID] --num-workers [NEW-NUM-WORKERS]
+  ```
+
+- **Delete a Dataproc Cluster:**
+  ```bash
+  gcloud dataproc clusters delete [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID]
+  ```
+
+### **Jobs and Workflows:**
+
+- **Submit a PySpark Job:**
+  ```bash
+  gcloud dataproc jobs submit pyspark [JOB-FILE] --cluster [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID]
+  ```
+
+- **Submit a SparkSQL Job:**
+  ```bash
+  gcloud dataproc jobs submit sparksql --cluster [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID] --query-file [QUERY-FILE]
+  ```
+
+- **Submit a Pig Job:**
+  ```bash
+  gcloud dataproc jobs submit pig [JOB-FILE] --cluster [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID]
+  ```
+
+- **Submit a Hive Job:**
+  ```bash
+  gcloud dataproc jobs submit hive [JOB-FILE] --cluster [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID]
+  ```
+
+- **Submit a Spark Job with JAR:**
+  ```bash
+  gcloud dataproc jobs submit spark --cluster [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID] --class [MAIN-CLASS] --jars [JAR-FILE]
+  ```
+
+### **Job Management:**
+
+- **List Dataproc Jobs:**
+  ```bash
+  gcloud dataproc jobs list --region [REGION] --project [PROJECT-ID]
+  ```
+
+- **View Job Details:**
+  ```bash
+  gcloud dataproc jobs describe [JOB-ID] --region [REGION] --project [PROJECT-ID]
+  ```
+
+- **Cancel a Dataproc Job:**
+  ```bash
+  gcloud dataproc jobs cancel [JOB-ID] --region [REGION] --project [PROJECT-ID]
+  ```
+
+### **Initialization Actions:**
+
+- **Add Initialization Action to Cluster:**
+  ```bash
+  gcloud dataproc clusters update [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID] --update=[INIT-ACTION-SCRIPT]
+  ```
+
+### **IAM and Permissions:**
+
+- **Grant Permissions to a User:**
+  ```bash
+  gcloud dataproc clusters add-iam-policy-binding [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID] --member [MEMBER] --role [ROLE]
+  ```
+
+- **Revoke Permissions from a User:**
+  ```bash
+  gcloud dataproc clusters remove-iam-policy-binding [CLUSTER-NAME] --region [REGION] --project [PROJECT-ID] --member [MEMBER] --role [ROLE]
+  ```
+
+This cheat sheet provides essential commands for managing Google Cloud Dataproc clusters, submitting and managing jobs, configuring initialization actions, and handling IAM permissions. Adjust placeholders such as `[...]` with your specific values. Refer to the [Google Cloud Dataproc Documentation](https://cloud.google.com/dataproc/docs) for more comprehensive details and advanced features.
 
 ### Cloud Storage Transfer Service:
 
-**Google Cloud Storage Transfer Service Cheat Sheet**
-
-### **Transfer Operations:**
+## Google Cloud Storage Transfer Service
 
 - **Create a Transfer Operation:**
   ```bash
